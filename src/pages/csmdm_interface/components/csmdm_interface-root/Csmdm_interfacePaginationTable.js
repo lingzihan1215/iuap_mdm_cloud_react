@@ -126,7 +126,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
 
     // 表格勾选回调函数，返回选中数据
     onTableSelectedData = data => {
-
+        console.log(data);
         this.setState({
             selectData: data
         })

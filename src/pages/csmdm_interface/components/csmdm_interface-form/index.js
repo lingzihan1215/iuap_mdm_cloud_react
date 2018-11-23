@@ -101,14 +101,17 @@ class Csmdm_interfaceForm extends Component {
                             <Col md={4} xs={6}>
                                 <FormItem>
                                     <Label>接口类型</Label>
-                                    <FormControl
+                                    <Select
                                             {
                                             ...getFieldProps('interface_type', {
-                                                initialValue: '',
-                                            })
-                                        }
-                                    />
-
+                                            initialValue: '',
+                                        })
+                                    }
+                                    >
+                                            <Option value="">请选择</Option>
+                                                <Option value="1">客商</Option>
+                                                <Option value="2">银行</Option>
+                                    </Select>
 
                                 </FormItem>
                             </Col>
