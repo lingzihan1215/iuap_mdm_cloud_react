@@ -8,7 +8,10 @@ const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const pathUrl = ''; //http://127.0.0.1:8080 设置host，可选
-const context = '/';//工程节点名称
+//context 工程节点名称
+//云上打包，没有项目路径时为/react，有项目路径时为/csmdm/react
+//本地测试时为/
+const context = '/csmdm/react';//工程节点名称 云上打包时为/react，本地测试时为/
 const contentBase = './build'+context;//打包目录
 const staticConfig = {
     folder: "dll"
@@ -41,6 +44,7 @@ const proxyConfig = [
   // },
   
   // 后台开发服务
+  //云上打包时没有用
   {
     enable: true,
     headers: {
@@ -49,15 +53,20 @@ const proxyConfig = [
     },
     // context，如果不配置，默认就是代理全部。
     router: [
-      '/mdm'
+      '/csmdm'
     ],
+    // url: 'http://csmdm-2-page.dev.app.yyuap.com'
     url: 'http://localhost:8090'
+
   }
 ];
 
 const globalEnvConfig = new webpack.DefinePlugin({
   __MODE__: JSON.stringify(process.env.NODE_ENV),
-  GROBAL_HTTP_CTX: JSON.stringify("/mdm")
+  //GROBAL_HTTP_CTX 全局访问地址
+  //云上打包，没有项目路径时为空，有项目路径时为/csmdm，
+  //本地测试为/csmdm
+  GROBAL_HTTP_CTX: JSON.stringify("/csmdm") 
 })
 
 const MINIMIZE_FLAG = (process.env.NODE_ENV == "production") ? true : false;
