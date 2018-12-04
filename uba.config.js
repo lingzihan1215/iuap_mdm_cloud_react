@@ -11,7 +11,7 @@ const pathUrl = ''; //http://127.0.0.1:8080 设置host，可选
 //context 工程节点名称
 //云上打包，没有项目路径时为/react，有项目路径时为/csmdm/react
 //本地测试时为/
-const context = '/csmdm/react';//工程节点名称 云上打包时为/react，本地测试时为/
+const context = '/csmdm/react';//工程节点名称
 const contentBase = './build'+context;//打包目录
 const staticConfig = {
     folder: "dll"
