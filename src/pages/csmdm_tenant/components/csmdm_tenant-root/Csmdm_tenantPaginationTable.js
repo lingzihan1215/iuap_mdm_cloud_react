@@ -1,21 +1,44 @@
 import React, { Component } from 'react'
 import PaginationTable from 'components/PaginationTable'
 import { actions } from 'mirrorx';
-import { Button,Message,Modal, Loading } from 'tinper-bee';
+import { Button, Message, Modal, Loading, Transfer } from 'tinper-bee';
 import Select from 'bee-select';
 import moment from "moment/moment";
 import Header from 'components/Header';
 import Csmdm_tenantForm from '../csmdm_tenant-form';
 import './index.less'
+
+//模态框示例
+const mockData = [];
+for (let i = 0; i < 20; i++) {
+  mockData.push({
+    key: i.toString(),
+    title: `content${i + 1}`,
+    description: `description of content${i + 1}`,
+    // disabled: i % 3 < 1,
+  });
+}
+const targetKeys = mockData
+        .filter(item => +item.key % 3 > 1)
+        .map(item => item.key);
+
+
 export default class Csmdm_tenantPaginationTable extends Component {
     constructor(props){
         super(props);
         let self=this;
         this.state = {
+            //模态框
+            showModal:false,
+
+            //模态框示例
+            targetKeys,
+            selectedKeys: [],
+            modalSize: '',
+
             // 表格中所选中的数据，拿到后可以去进行增删改查
             selectData: [],
             step: 10,
-            showModal:false,
             delData:[],
             column:[
                 {
@@ -153,12 +176,34 @@ export default class Csmdm_tenantPaginationTable extends Component {
             showModal:true,
             delData:[{ id: record.id,ts: record.ts }]
         });
+    }
 
+    //模态框示例
+    open = () => {
+        this.setState({
+            showModal: true
+        });
+    }
+    handleChange = (nextTargetKeys, direction, moveKeys) => {
+        this.setState({ targetKeys: nextTargetKeys });
+
+        console.log('targetKeys: ', targetKeys);
+        console.log('direction: ', direction);
+        console.log('moveKeys: ', moveKeys);
+    }
+    handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+        this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] });
+
+        console.log('sourceSelectedKeys: ', sourceSelectedKeys);
+        console.log('targetSelectedKeys: ', targetSelectedKeys);
+    }
+    handleScroll = (direction, e) => {
+        console.log('direction:', direction);
+        console.log('target:', e.target);
     }
 
     // 表格勾选回调函数，返回选中数据
     onTableSelectedData = data => {
-
         this.setState({
             selectData: data
         })
@@ -271,11 +316,14 @@ export default class Csmdm_tenantPaginationTable extends Component {
     }
 
     render(){
+        //模态框示例
+        const state = this.state;
+        
         const self=this;
         let { list, showLoading, pageIndex, pageSize, totalPages , total } = this.props;
         let {selectData,showModal} = this.state;
         let exportProps = { total, pageIndex, pageSize, selectData, list};
-        console.log("list",list)
+        // console.log("list",list)
         return (
             <div className='csmdm_tenant-root'>
                 <Header title='云主数据-租户'/>
@@ -284,7 +332,9 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={() => { self.cellClick({},0) }}>
                     新增
                     </Button>
-                   
+                    <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={this.open}>
+                    分配资源
+                    </Button>
 
 
                 </div>
@@ -304,6 +354,32 @@ export default class Csmdm_tenantPaginationTable extends Component {
                 <Loading show={showLoading} loadingType="line" />
                 <Modal
                         show={showModal}
+                        >
+                    <Modal.Header>
+                        <Modal.Title>分配资源</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <Transfer
+                            dataSource={mockData}
+                            titles={['待分配资源', '已分配资源']}
+                            targetKeys={state.targetKeys}
+                            selectedKeys={state.selectedKeys}
+                            onChange={this.handleChange}
+                            onSelectChange={this.handleSelectChange}
+                            onScroll={this.handleScroll}
+                            render={item => item.title}
+                        />
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button onClick={()=>this.onModalDel(false)} shape="border" style={{ marginRight: 50 }}>关闭</Button>
+                        <Button onClick={()=>this.onModalDel(true)} colors="primary">确认</Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* <Modal
+                        show={showModal}
                         onHide={this.close} >
                     <Modal.Header>
                         <Modal.Title>确认删除</Modal.Title>
@@ -317,7 +393,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                         <Button onClick={()=>this.onModalDel(false)} shape="border" style={{ marginRight: 50 }}>关闭</Button>
                         <Button onClick={()=>this.onModalDel(true)} colors="primary">确认</Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
             </div>
 
         )
