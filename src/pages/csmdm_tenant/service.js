@@ -7,7 +7,7 @@ const URL = {
     "DEL_ORDER":  `${GROBAL_HTTP_CTX}/tenant/deleteBatch`,
     "GET_ASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getAssignedInter`,        //获取租户已分配接口列表
     "GET_UNASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getUnassignedInter`,    //获取租户未分配接口列表
-    "GET_ALL_INTER":  `${GROBAL_HTTP_CTX}/inter/getAllInter`,    //获取所有接口列表
+    "GET_ALL_INTER":  `${GROBAL_HTTP_CTX}/inter/getAllInter`,                   //获取所有接口列表
 
 }
 

@@ -8,20 +8,20 @@ import Header from 'components/Header';
 import Csmdm_tenantForm from '../csmdm_tenant-form';
 import './index.less'
 
-//模态框示例
-const mockData = [];
-for (let i = 0; i < 20; i++) {
-  mockData.push({
-    key: i.toString(),
-    title: `content${i + 1}`,
-    description: `description of content${i + 1}`,
-    // disabled: i % 3 < 1,
-  });
-}
-//过滤数组得到子数组，并把对象转换为对象的key，最后是一个字符串数组
-const targetKeys = mockData
-        .filter(item => +item.key % 3 > 1)
-        .map(item => item.key);
+// //模态框示例
+// const mockData = [];
+// for (let i = 0; i < 20; i++) {
+//   mockData.push({
+//     key: i.toString(),
+//     title: `content${i + 1}`,
+//     description: `description of content${i + 1}`,
+//     // disabled: i % 3 < 1,
+//   });
+// }
+// //过滤数组得到子数组，并把对象转换为对象的key，最后是一个字符串数组
+// const targetKeys = mockData
+//         .filter(item => +item.key % 3 > 1)
+//         .map(item => item.key);
 
 
 export default class Csmdm_tenantPaginationTable extends Component {
@@ -31,10 +31,8 @@ export default class Csmdm_tenantPaginationTable extends Component {
         this.state = {
             //模态框
             showModal:false,
-
-            //模态框示例
-            targetKeys,
-            selectedKeys: [],
+            targetKeys:[],      //展示在右边列表的数据集，只有key的值，是一个字符串数组
+            selectedKeys: [],   //被选中中的记录
 
             // 表格中所选中的数据，拿到后可以去进行增删改查
             selectData: [],
@@ -178,52 +176,29 @@ export default class Csmdm_tenantPaginationTable extends Component {
         });
     }
 
-    // 分配资源操作
+    // 分配资源操作，穿梭框
     assignInter = async (record, index) => {
         //清理一下缓存数据
         this.setState({
             selectedKeys: [],
         });
 
-        //获取tenantId
-        let tenantId = "";
-        if(record){
-            tenantId = record["tenant_id"];
-        }
-        console.log("tenantId:",tenantId);
-
         // 所有接口数据
         await actions.csmdm_tenant.getAllInter();
-        // 租户未分配接口数据
-        await actions.csmdm_tenant.getUnAssignedInter({
-            tenantId:tenantId
-        });
         // 租户已分配接口数据
         await actions.csmdm_tenant.getAssignedInter({
-            tenantId:tenantId
+            tenantId:record["tenant_id"]
         });
 
         let allInter = this.props.allInterList;
-        let unassign = this.props.unAssignInterList;
         let assign = this.props.assignInterList;
         console.log("allInter:",allInter);
-        console.log("unassign:",unassign);
         console.log("assign:",assign);
 
         this.setState({
             targetKeys:this.props.assignInterList,
             showModal:true,
         });
-    }
-    //穿梭操作
-    handleChange = async (nextTargetKeys, direction, moveKeys) => {
-        console.log('nextTargetKeys: ', nextTargetKeys);
-
-        await this.setState({ targetKeys: nextTargetKeys });
-
-        console.log('targetKeys: ', this.state.targetKeys);
-        console.log('direction: ', direction);
-        console.log('moveKeys: ', moveKeys);
     }
     //选中操作
     handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
@@ -232,6 +207,16 @@ export default class Csmdm_tenantPaginationTable extends Component {
         console.log('sourceSelectedKeys: ', sourceSelectedKeys);
         console.log('targetSelectedKeys: ', targetSelectedKeys);
     }
+    //穿梭操作
+    handleChange = async (nextTargetKeys, direction, moveKeys) => {
+        //更新模板框中记录
+        await this.setState({ targetKeys: nextTargetKeys });
+
+        console.log('targetKeys: ', this.state.targetKeys);
+        console.log('direction: ', direction);
+        console.log('moveKeys: ', moveKeys);
+    }
+    //
     handleScroll = (direction, e) => {
         console.log('direction:', direction);
         console.log('target:', e.target);
@@ -356,7 +341,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
         
         const self = this;
         let { list, showLoading, pageIndex, pageSize, totalPages, total, 
-            allInterList, unAssignInterList, assignInterList } = this.props;
+            allInterList} = this.props;
         let { selectData, showModal } = this.state;
         let exportProps = { total, pageIndex, pageSize, selectData, list };
         // console.log("list",list)

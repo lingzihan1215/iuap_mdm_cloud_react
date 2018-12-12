@@ -41,8 +41,7 @@ export default {
         searchParam:{},
         validateNum:99,//不存在的step
         allInterList:[],        //所有接口列表
-        assignInterList:[],     //已分配接口列表
-        unAssignInterList:[],   //未分配接口列表
+        assignInterList:[],     //已分配接口列表，只有接口id串
     },
     reducers: {
         /**
@@ -179,40 +178,15 @@ export default {
 
                 if(res&&res.length){
                     for(let i=0;i<res.length;i++){
-                        //根据穿梭框参数名称改造一下返回的list
+                        //穿梭框数据源框中数组由 key 和 title 属性组成
                         res[i].key = res[i].interface_id;
                         res[i].title = res[i].interface_name;
                     }
                 }
                 
+                //更新assignInterList
                 actions.csmdm_tenant.updateState({
                     allInterList: res,
-                });
-            }
-        },
-        /**
-         * 获取租户未分配接口列表
-         * @param {*} param
-         * @param {*} getState
-         */
-        async getUnAssignedInter(param, getState) {
-            // 调用 getUnAssignedInter 请求数据
-            let res = processData(await api.getUnAssignedInter(param));
-
-            // 数据解析
-            if (res) {
-                console.log('unassigned inter list:',res);
-
-                if(res&&res.length){
-                    for(let i=0;i<res.length;i++){
-                        //根据穿梭框参数名称改造一下返回的list
-                        res[i].key = res[i].interface_id;
-                        res[i].title = res[i].interface_name;
-                    }
-                }
-                
-                actions.csmdm_tenant.updateState({
-                    unAssignInterList: res,
                 });
             }
         },
@@ -229,18 +203,18 @@ export default {
             if (res) {
                 console.log('assigned inter list:',res);
 
+                //接口id串数组
                 const assignInterIds = [];
                 if(res&&res.length){
                     for(let i=0;i<res.length;i++){
-                        //根据穿梭框参数名称改造一下返回的list
+                        //穿梭框目的框中数组只有key的值
                         //获取接口的id，放在数组中
                         assignInterIds.push(res[i].interface_id);
 
                     }
                 }
 
-                console.log('assigned inter ids:',assignInterIds);
-                
+                //更新assignInterList
                 actions.csmdm_tenant.updateState({
                     assignInterList: assignInterIds,
                 });
