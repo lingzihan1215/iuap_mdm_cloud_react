@@ -223,6 +223,19 @@ export default class Csmdm_tenantPaginationTable extends Component {
         console.log('direction:', direction);
         console.log('target:', e.target);
     }
+    // 模态框确认删除
+    onModalDel = async (delFlag)=>{
+        let {delData} = this.state;
+        if(delFlag){
+            await actions.csmdm_tenant.delItem({
+                param: delData
+            });
+        }
+        this.setState({
+            showModal:false,
+            delData:[]
+        })
+    }
     //******************** 分配资源穿梭框 end ********************
 
     // 表格勾选回调函数，返回选中数据
@@ -314,20 +327,6 @@ export default class Csmdm_tenantPaginationTable extends Component {
         )
     }
 
-    // 模态框确认删除
-    onModalDel = async (delFlag)=>{
-        let {delData} = this.state;
-        if(delFlag){
-            await actions.csmdm_tenant.delItem({
-                param: delData
-            });
-        }
-        this.setState({
-            showModal:false,
-            delData:[]
-        })
-    }
-
 
     // 动态设置列表滚动条x坐标
     getCloumnsScroll = (columns) => {
@@ -339,7 +338,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
     }
 
     render(){
-        //模态框示例
+        //模态框
         const state = this.state;
         
         const self = this;
@@ -398,7 +397,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
 
                     <Modal.Footer>
                         <Button onClick={() => this.onModalDel(false)} shape="border" style={{ marginRight: 50 }}>关闭</Button>
-                        <Button onClick={() => this.onModalDel(true)} colors="primary">确认</Button>
+                        <Button onClick={() => this.onModalDel(false)} colors="primary">确认</Button>
                     </Modal.Footer>
                 </Modal>
 
