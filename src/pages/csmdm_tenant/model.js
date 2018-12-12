@@ -171,14 +171,6 @@ export default {
             // 正在加载数据，显示加载 Loading 图标
             actions.csmdm_tenant.updateState({ showLoading:true })
 
-            // 参数
-            if(param){
-                param.pageIndex = param.pageIndex ? param.pageIndex - 1 : 0;
-                param.pageSize = param.pageSize ? param.pageSize : 10;
-            } else {
-                param = {}
-            }
-
             // 调用 getAssignedInter 请求数据
             let res = processData(await api.getAssignedInter(param));
 

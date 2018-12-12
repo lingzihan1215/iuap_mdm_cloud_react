@@ -130,7 +130,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                             <div className='operation-btn'>
                                 <i size='sm' className='uf uf-search edit-btn' onClick={() => { self.cellClick(record,2) }}></i>
                                 <i size='sm' className='uf uf-pencil edit-btn' onClick={() => { self.cellClick(record,1) }}></i>
-                                <i size='sm' className='uf uf-del del-btn' onClick={() => { self.delItem(record, index) }}></i>
+                                <i size='sm' className='uf uf-setting edit-btn' onClick={() => { self.assignInter(record, index) }}></i>
                             </div>
                         )
                     }
@@ -145,6 +145,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
     }
 
     tabelSelect = (data) => {//tabel选中数据
+        console.log("selected data:",data);
         this.setState({
             selectData: data
         })
@@ -178,8 +179,34 @@ export default class Csmdm_tenantPaginationTable extends Component {
         });
     }
 
+    // 分配资源操作
+    assignInter = (record, index) => {
+        //获取tenantId
+        let tenantId = "";
+        if(record){
+            tenantId = record["tenant_id"];
+        }
+        console.log("tenantId:",tenantId);
+
+        // 租户接口数据
+        actions.csmdm_tenant.getAssignedInter({
+            tenantId:tenantId
+        });
+
+        this.setState({
+            showModal:true,
+        });
+    }
+
     //模态框示例
     open = () => {
+        //获取tenantId
+        // let tenantId = "";
+        // if(record){
+        //     tenantId = record["tenant_id"];
+        // }
+        // console.log("tenantId:",tenantId);
+
         // 租户接口数据
         actions.csmdm_tenant.getAssignedInter();
 

@@ -6,7 +6,7 @@ const URL = {
     "GET_LIST":  `${GROBAL_HTTP_CTX}/tenant/list`,
     "DEL_ORDER":  `${GROBAL_HTTP_CTX}/tenant/deleteBatch`,
     "GET_ASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getAssignedInter`,        //获取租户已分配接口列表
-    "GET_UNASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getUnassignedInter`,    //获取租户未分配的接口
+    "GET_UNASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getUnassignedInter`,    //获取租户未分配接口列表
 
 }
 
@@ -89,7 +89,7 @@ export const getAssignedInter = (params) => {
     for(let attr in params){
        url+='&'+attr+'='+params[attr];
     }
-    url+='&tenantId=3b65fa0f-7b59-4a3e-9ae1-36fcf9bda6c8';
+    console.log("url:",url);
     return request(url, {
         method: "get",
         data: params
