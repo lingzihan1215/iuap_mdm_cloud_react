@@ -7,6 +7,7 @@ const URL = {
     "DEL_ORDER":  `${GROBAL_HTTP_CTX}/tenant/deleteBatch`,
     "GET_ASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getAssignedInter`,        //获取租户已分配接口列表
     "GET_UNASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getUnassignedInter`,    //获取租户未分配接口列表
+    "GET_ALL_INTER":  `${GROBAL_HTTP_CTX}/inter/getAllInter`,    //获取所有接口列表
 
 }
 
@@ -81,6 +82,36 @@ export const getDetail = (params) => {
 }
 
 /**
+ * 获取所有接口列表
+ * @param {*} params
+ */
+export const getAllInter = (params) => {
+    let url =URL.GET_ALL_INTER+'?1=1';
+    for(let attr in params){
+       url+='&'+attr+'='+params[attr];
+    }
+    console.log("url:",url);
+    return request(url, {
+        method: "get",
+        data: params
+    });
+}
+/**
+ * 获取未分配接口列表
+ * @param {*} params
+ */
+export const getUnAssignedInter = (params) => {
+    let url =URL.GET_UNASSIGNED_INTER+'?1=1';
+    for(let attr in params){
+       url+='&'+attr+'='+params[attr];
+    }
+    console.log("url:",url);
+    return request(url, {
+        method: "get",
+        data: params
+    });
+}
+/**
  * 获取已分配接口列表
  * @param {*} params
  */
@@ -95,3 +126,5 @@ export const getAssignedInter = (params) => {
         data: params
     });
 }
+
+

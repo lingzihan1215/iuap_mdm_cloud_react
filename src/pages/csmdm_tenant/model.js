@@ -40,7 +40,9 @@ export default {
         detail:{},
         searchParam:{},
         validateNum:99,//不存在的step
-
+        allInterList:[],        //所有接口列表
+        assignInterList:[],     //已分配接口列表
+        unAssignInterList:[],   //未分配接口列表
     },
     reducers: {
         /**
@@ -163,34 +165,87 @@ export default {
         },
 
         /**
+         * 获取所有接口列表
+         * @param {*} param
+         * @param {*} getState
+         */
+        async getAllInter(param, getState) {
+            // 调用 getAllInter 请求数据
+            let res = processData(await api.getAllInter(param));
+
+            // 数据解析
+            if (res) {
+                console.log('all inter list:',res);
+
+                if(res&&res.length){
+                    for(let i=0;i<res.length;i++){
+                        //根据穿梭框参数名称改造一下返回的list
+                        res[i].key = res[i].interface_id;
+                        res[i].title = res[i].interface_name;
+                    }
+                }
+                
+                actions.csmdm_tenant.updateState({
+                    allInterList: res,
+                });
+            }
+        },
+        /**
+         * 获取租户未分配接口列表
+         * @param {*} param
+         * @param {*} getState
+         */
+        async getUnAssignedInter(param, getState) {
+            // 调用 getUnAssignedInter 请求数据
+            let res = processData(await api.getUnAssignedInter(param));
+
+            // 数据解析
+            if (res) {
+                console.log('unassigned inter list:',res);
+
+                if(res&&res.length){
+                    for(let i=0;i<res.length;i++){
+                        //根据穿梭框参数名称改造一下返回的list
+                        res[i].key = res[i].interface_id;
+                        res[i].title = res[i].interface_name;
+                    }
+                }
+                
+                actions.csmdm_tenant.updateState({
+                    unAssignInterList: res,
+                });
+            }
+        },
+        /**
          * 获取租户已分配接口列表
          * @param {*} param
          * @param {*} getState
          */
         async getAssignedInter(param, getState) {
-            // 正在加载数据，显示加载 Loading 图标
-            actions.csmdm_tenant.updateState({ showLoading:true })
-
             // 调用 getAssignedInter 请求数据
             let res = processData(await api.getAssignedInter(param));
 
-            // 隐藏加载 Loading 图标
-            actions.csmdm_tenant.updateState({  showLoading:false })
-
             // 数据解析
             if (res) {
-                console.log('res data:',res);
+                console.log('assigned inter list:',res);
 
+                const assignInterIds = [];
                 if(res&&res.length){
                     for(let i=0;i<res.length;i++){
-                        let temp = Object.assign({},res[i]);
-                        res[i].key=i+1;
+                        //根据穿梭框参数名称改造一下返回的list
+                        //获取接口的id，放在数组中
+                        assignInterIds.push(res[i].interface_id);
+
                     }
                 }
+
+                console.log('assigned inter ids:',assignInterIds);
                 
-                // actions.csmdm_tenant.updateState({
-                //     list: res.content,
-                // });
+                actions.csmdm_tenant.updateState({
+                    assignInterList: assignInterIds,
+                });
+
+                
             }
         },
 
