@@ -162,7 +162,45 @@ export default {
             return content[0];
         },
 
-        
+        /**
+         * 获取租户已分配接口列表
+         * @param {*} param
+         * @param {*} getState
+         */
+        async getAssignedInter(param, getState) {
+            // 正在加载数据，显示加载 Loading 图标
+            actions.csmdm_tenant.updateState({ showLoading:true })
+
+            // 参数
+            if(param){
+                param.pageIndex = param.pageIndex ? param.pageIndex - 1 : 0;
+                param.pageSize = param.pageSize ? param.pageSize : 10;
+            } else {
+                param = {}
+            }
+
+            // 调用 getAssignedInter 请求数据
+            let res = processData(await api.getAssignedInter(param));
+
+            // 隐藏加载 Loading 图标
+            actions.csmdm_tenant.updateState({  showLoading:false })
+
+            // 数据解析
+            if (res) {
+                console.log('res data:',res);
+
+                if(res&&res.length){
+                    for(let i=0;i<res.length;i++){
+                        let temp = Object.assign({},res[i]);
+                        res[i].key=i+1;
+                    }
+                }
+                
+                // actions.csmdm_tenant.updateState({
+                //     list: res.content,
+                // });
+            }
+        },
 
 
     }

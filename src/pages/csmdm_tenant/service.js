@@ -5,7 +5,8 @@ const URL = {
     "SAVE_ORDER":  `${GROBAL_HTTP_CTX}/tenant/updateTenant`,
     "GET_LIST":  `${GROBAL_HTTP_CTX}/tenant/list`,
     "DEL_ORDER":  `${GROBAL_HTTP_CTX}/tenant/deleteBatch`,
-
+    "GET_ASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getAssignedInter`,        //获取租户已分配接口列表
+    "GET_UNASSIGNED_INTER":  `${GROBAL_HTTP_CTX}/tenant/getUnassignedInter`,    //获取租户未分配的接口
 
 }
 
@@ -72,10 +73,25 @@ export const delCsmdm_tenant = (params) => {
 /**
  * 通过search_id 查询列表详情
 */
-
 export const getDetail = (params) => {
     return request(URL.GET_DETAIL, {
         method: "get",
         param: params
+    });
+}
+
+/**
+ * 获取已分配接口列表
+ * @param {*} params
+ */
+export const getAssignedInter = (params) => {
+    let url =URL.GET_ASSIGNED_INTER+'?1=1';
+    for(let attr in params){
+       url+='&'+attr+'='+params[attr];
+    }
+    url+='&tenantId=3b65fa0f-7b59-4a3e-9ae1-36fcf9bda6c8';
+    return request(url, {
+        method: "get",
+        data: params
     });
 }

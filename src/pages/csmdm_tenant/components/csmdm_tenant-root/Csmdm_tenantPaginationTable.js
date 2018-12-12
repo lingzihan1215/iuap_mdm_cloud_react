@@ -180,6 +180,10 @@ export default class Csmdm_tenantPaginationTable extends Component {
 
     //模态框示例
     open = () => {
+        // 租户接口数据
+        actions.csmdm_tenant.getAssignedInter();
+
+        //显示模态框
         this.setState({
             showModal: true
         });
