@@ -176,16 +176,18 @@ export default class Csmdm_tenantPaginationTable extends Component {
         });
     }
 
+    //******************** 分配资源穿梭框 begin ********************
     // 分配资源操作，穿梭框
     assignInter = async (record, index) => {
         //清理一下缓存数据
         this.setState({
+            targetKeys:[],
             selectedKeys: [],
         });
 
-        // 所有接口数据
+        // 获取所有接口
         await actions.csmdm_tenant.getAllInter();
-        // 租户已分配接口数据
+        // 获取租户已分配接口
         await actions.csmdm_tenant.getAssignedInter({
             tenantId:record["tenant_id"]
         });
@@ -221,6 +223,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
         console.log('direction:', direction);
         console.log('target:', e.target);
     }
+    //******************** 分配资源穿梭框 end ********************
 
     // 表格勾选回调函数，返回选中数据
     onTableSelectedData = data => {
