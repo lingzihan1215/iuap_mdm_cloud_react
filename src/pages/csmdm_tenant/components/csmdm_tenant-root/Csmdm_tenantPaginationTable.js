@@ -402,7 +402,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                             onSelectChange={this.handleSelectChange}
                             onScroll={this.handleScroll}
                             render={item => item.title}
-                            lazy={"modal"}
+                            lazy={{container:"modal"}}
                         />
                     </Modal.Body>
 

@@ -223,22 +223,12 @@ export default {
         },
         //更新租户信息
         async assignTenantInter(param){
-            // 正在加载数据，显示加载 Loading 图标
-            actions.csmdm_tenant.updateState({
-              showLoading:true
-            })
-
             //分配接口资源
             // console.log("assign param:",param);
-            let res = processData(await api.assignTenantInter(param),'保存成功');
+            let res = processData(await api.assignTenantInter(param));
             if(res){
                window.history.go(-1);
             }
-
-            //隐藏加载 Loading 图标
-            actions.csmdm_tenant.updateState({
-                showLoading:false,
-            });
         },
 
 
