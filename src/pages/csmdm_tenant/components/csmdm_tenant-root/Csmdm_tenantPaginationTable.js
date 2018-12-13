@@ -33,7 +33,8 @@ export default class Csmdm_tenantPaginationTable extends Component {
             showModal:false,
             targetKeys:[],      //展示在右边列表的数据集，只有key的值，是一个字符串数组
             selectedKeys: [],   //被选中中的记录
-            tenantId:'',
+            tenantId:'',        //被选中的租户id
+            tenantName:'',      //被选中的租户名称
 
             // 表格中所选中的数据，拿到后可以去进行增删改查
             selectData: [],
@@ -184,6 +185,8 @@ export default class Csmdm_tenantPaginationTable extends Component {
         this.setState({
             targetKeys:[],
             selectedKeys: [],
+            tenantId:'',
+            tenantName:'',
         });
 
         // 获取所有接口
@@ -196,6 +199,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
         this.setState({
             targetKeys:this.props.assignInterList,
             tenantId:record["tenant_id"],
+            tenantName:record["tenant_name"],
             showModal:true,
         });
     }
@@ -233,6 +237,10 @@ export default class Csmdm_tenantPaginationTable extends Component {
     //分配接口模态框关闭
     closeAssignInter = async ()=>{
         this.setState({
+            targetKeys:[],
+            selectedKeys: [],
+            tenantId:'',
+            tenantName:'',
             showModal:false,
         })
     }
@@ -360,15 +368,14 @@ export default class Csmdm_tenantPaginationTable extends Component {
             allInterList} = this.props;
         let { selectData, showModal } = this.state;
         let exportProps = { total, pageIndex, pageSize, selectData, list };
-        // console.log("list",list)
         return (
             <div className='csmdm_tenant-root'>
                 <Header title='云主数据-租户'/>
                 <Csmdm_tenantForm { ...this.props }/>
                 <div className='table-header mt25'>
-                    <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={() => { self.cellClick({},0) }}>
+                    {/* <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={() => { self.cellClick({},0) }}>
                     新增
-                    </Button>
+                    </Button> */}
                 </div>
                 <PaginationTable
                         data={list}
@@ -389,7 +396,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     size={ 'lg' }
                 >
                     <Modal.Header>
-                        <Modal.Title>租户接口资源分配</Modal.Title>
+                        <Modal.Title>租户接口资源分配—{state.tenantName}</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
