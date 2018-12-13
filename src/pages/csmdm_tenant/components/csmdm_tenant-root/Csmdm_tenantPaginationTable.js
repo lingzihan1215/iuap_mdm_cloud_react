@@ -386,6 +386,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                 <Loading show={showLoading} loadingType="line" />
                 <Modal
                     show={showModal}
+                    size={ 'lg' }
                 >
                     <Modal.Header>
                         <Modal.Title>租户接口资源分配</Modal.Title>
@@ -401,6 +402,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                             onSelectChange={this.handleSelectChange}
                             onScroll={this.handleScroll}
                             render={item => item.title}
+                            lazy={"modal"}
                         />
                     </Modal.Body>
 
