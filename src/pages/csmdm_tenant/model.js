@@ -98,9 +98,9 @@ export default {
             actions.csmdm_tenant.updateState({
               showLoading:true
             })
-            console.log("assign param:",param);
+            // console.log("assign param:",param);
             let res = processData(await api.saveCsmdm_tenant(param),'保存成功');
-            if(res){
+            if(res != "error"){
                window.history.go(-1);
             }
             actions.csmdm_tenant.updateState({

@@ -45,7 +45,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     title: "租户id",
                     dataIndex: "tenant_id",
                     key: "tenant_id",
-                     width:200,
+                     width:100,
                 },
                 {
                     title: "租户名称",
@@ -57,67 +57,67 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     title: "联系人",
                     dataIndex: "contact_person",
                     key: "contact_person",
-                     width:200,
+                     width:100,
                 },
                 {
                     title: "企业电话",
                     dataIndex: "tenant_tel",
                     key: "tenant_tel",
-                     width:200,
+                     width:120,
                 },
                 {
                     title: "企业邮箱",
                     dataIndex: "tenant_email",
                     key: "tenant_email",
-                     width:200,
+                     width:180,
                 },
-                {
-                    title: "认证code",
-                    dataIndex: "tenant_auth_code",
-                    key: "tenant_auth_code",
-                     width:200,
-                },
-                {
-                    title: "认证token",
-                    dataIndex: "tenant_token",
-                    key: "tenant_token",
-                     width:200,
-                },
+                // {
+                //     title: "认证code",
+                //     dataIndex: "tenant_auth_code",
+                //     key: "tenant_auth_code",
+                //      width:200,
+                // },
+                // {
+                //     title: "所在地",
+                //     dataIndex: "tenant_area",
+                //     key: "tenant_area",
+                //      width:50,
+                // },
                 {
                     title: "企业地址",
                     dataIndex: "tenant_address",
                     key: "tenant_address",
-                     width:200,
+                     width:250,
                 },
                 {
-                    title: "所属行业",
+                    title: "行业",
                     dataIndex: "tenant_industry",
                     key: "tenant_industry",
-                     width:200,
-                },
-                {
-                    title: "企业所在地",
-                    dataIndex: "tenant_area",
-                    key: "tenant_area",
-                     width:200,
-                },
-                {
-                    title: "企业代码",
-                    dataIndex: "tenant_code",
-                    key: "tenant_code",
-                     width:200,
+                     width:50,
                 },
                 {
                     title: "企业状态",
                     dataIndex: "tenant_states",
                     key: "tenant_states",
-                     width:200,
+                     width:80,
                 },
                 {
                     title: "主数据状态",
                     dataIndex: "tenant_mdm_status",
                     key: "tenant_mdm_status",
-                     width:200,
+                     width:80,
+                },
+                {
+                    title: "企业代码",
+                    dataIndex: "tenant_code",
+                    key: "tenant_code",
+                     width:260,
+                },
+                {
+                    title: "认证token",
+                    dataIndex: "tenant_token",
+                    key: "tenant_token",
+                     width:1200,
                 },
                 {
                     title: "操作",
@@ -182,12 +182,12 @@ export default class Csmdm_tenantPaginationTable extends Component {
     // 分配资源操作，穿梭框
     assignInter = async (record, index) => {
         //清理一下缓存数据
-        this.setState({
-            targetKeys:[],
-            selectedKeys: [],
-            tenantId:'',
-            tenantName:'',
-        });
+        // this.setState({
+        //     targetKeys:[],
+        //     selectedKeys: [],
+        //     tenantId:'',
+        //     tenantName:'',
+        // });
 
         // 获取所有接口
         await actions.csmdm_tenant.getAllInter();
@@ -267,6 +267,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
         })
     }
 
+    //******************** 分页相关 begin ********************
     // 分页单页数据条数选择函数
     onPageSizeSelect = (index, value) => {
         actions.csmdm_tenant.loadList({
@@ -276,16 +277,17 @@ export default class Csmdm_tenantPaginationTable extends Component {
             pageSize: value
         })
     }
-
     // 分页组件点击页面数字索引执行函数
     onPageIndexSelect = value => {
         actions.csmdm_tenant.loadList({
-            pageIndex: value
+            pageIndex: value,
+            pageSize:this.props.pageSize
         })
         actions.csmdm_tenant.updateState({
             pageIndex: value
         })
     }
+    //******************** 分页相关 end ********************
 
     // 流程提交成功后回调函数
     onSubmitSuc = async ()=>{

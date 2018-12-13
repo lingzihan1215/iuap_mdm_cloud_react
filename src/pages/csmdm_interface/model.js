@@ -87,6 +87,20 @@ export default {
             }
         },
 
+        //更新接口信息
+        async save(param,getState){
+            actions.csmdm_interface.updateState({
+              showLoading:true
+            })
+            let res = processData(await api.saveCsmdm_interface(param),'保存成功');
+            if(res != "error"){
+               window.history.go(-1);
+            }
+            actions.csmdm_interface.updateState({
+                showLoading:false,
+            });
+        },
+
         /**
          * getSelect：获取下拉列表数据
          * @param {*} param
@@ -137,28 +151,10 @@ export default {
             actions.csmdm_interface.loadList();
         },
 
-        async save(param,getState){//保存
-            actions.csmdm_interface.updateState({
-              showLoading:true
-            })
-            let res = processData(await api.saveCsmdm_interface(param),'保存成功');
-            console.log("保存信息",res);
-            if(res){
-               window.history.go(-1);
-            }
-            actions.csmdm_interface.updateState({
-                showLoading:false,
-
-            });
-        },
-
         async queryDetail(param,getState) {
             let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
             return content[0];
         },
-
-        
-
 
     }
 };

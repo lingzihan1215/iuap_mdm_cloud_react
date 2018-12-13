@@ -48,19 +48,16 @@ class Edit extends Component {
             values.attachment = this.state.fileNameData;
             let numArray = [
             ];
-            for(let i=0,len=numArray.length; i<len; i++ ) {
+            for (let i = 0, len = numArray.length; i < len; i++) {
                 values[numArray[i]] = Number(values[numArray[i]]);
             }
-
 
             if (err) {
                 Message.create({ content: '数据填写错误', color: 'danger' });
             } else {
-                let {rowData,
-                } = this.state;
-                
+                let { rowData,} = this.state;
                 let saveObj = Object.assign({}, rowData, values);
-                
+
                 await actions.csmdm_interface.save(
                     saveObj,
                 );

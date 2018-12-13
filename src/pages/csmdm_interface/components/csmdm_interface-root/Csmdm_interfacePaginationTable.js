@@ -8,54 +8,54 @@ import Header from 'components/Header';
 import Csmdm_interfaceForm from '../csmdm_interface-form';
 import './index.less'
 export default class Csmdm_interfacePaginationTable extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        let self=this;
+        let self = this;
         this.state = {
             // 表格中所选中的数据，拿到后可以去进行增删改查
             selectData: [],
             step: 10,
-            showModal:false,
-            delData:[],
-            column:[
-                {
-                    title: "接口编号",
-                    dataIndex: "interface_id",
-                    key: "interface_id",
-                     width:200,
-                },
+            showModal: false,
+            delData: [],
+            column: [
+                // {
+                //     title: "接口编号",
+                //     dataIndex: "interface_id",
+                //     key: "interface_id",
+                //      width:200,
+                // },
                 {
                     title: "接口编码",
                     dataIndex: "interface_code",
                     key: "interface_code",
-                     width:200,
+                    width: 150,
                 },
                 {
                     title: "接口名称",
                     dataIndex: "interface_name",
                     key: "interface_name",
-                     width:200,
+                    width: 150,
                 },
                 {
                     title: "接口描述",
                     dataIndex: "interface_desc",
                     key: "interface_desc",
-                     width:200,
+                    width: 300,
                 },
                 {
                     title: "接口类型",
                     dataIndex: "interface_type",
                     key: "interface_type",
-                     width:200,
-                    render : (text, record, index) => (
+                    width: 80,
+                    render: (text, record, index) => (
                         <Select
-                            className = "hideselect"
-                            disabled = {true}
-                            value={ typeof text === 'undefined' ? "" : text }
+                            className="hideselect"
+                            disabled={true}
+                            value={typeof text === 'undefined' ? "" : text}
                         >
                             <Option value="">请选择</Option>
-                                <Option value={ "1" }>客商</Option>
-                                <Option value={ "2" }>银行</Option>
+                            <Option value={"1"}>客商</Option>
+                            <Option value={"2"}>银行</Option>
                         </Select>
                     )
                 },
@@ -63,18 +63,43 @@ export default class Csmdm_interfacePaginationTable extends Component {
                     title: "接口状态",
                     dataIndex: "interface_status",
                     key: "interface_status",
+                    width: 70,
+                },
+                {
+                    title: "计费方式",
+                    dataIndex: "charge_type",
+                    key: "charge_type",
+                    width: 70,
+                },
+                {
+                    title: "计费方式描述",
+                    dataIndex: "charge_type_desc",
+                    key: "charge_type_desc",
+                    width: 210,
+                },
+                {
+                    title: "分组编号",
+                    dataIndex: "分组编号",
+                    key: "分组编号",
+                    width: 70,
+                },
+                {
+                    title: "分组顺序",
+                    dataIndex: "group_num",
+                    key: "group_num",
+                    width: 70,
                 },
                 {
                     title: "操作",
                     dataIndex: "d",
                     key: "d",
-                    width:100,
+                    width: 100,
                     fixed: "right",
                     render(text, record, index) {
                         return (
                             <div className='operation-btn'>
-                                <i size='sm' className='uf uf-search edit-btn' onClick={() => { self.cellClick(record,2) }}></i>
-                                <i size='sm' className='uf uf-pencil edit-btn' onClick={() => { self.cellClick(record,1) }}></i>
+                                <i size='sm' className='uf uf-search edit-btn' onClick={() => { self.cellClick(record, 2) }}></i>
+                                <i size='sm' className='uf uf-pencil edit-btn' onClick={() => { self.cellClick(record, 1) }}></i>
                                 <i size='sm' className='uf uf-del del-btn' onClick={() => { self.delItem(record, index) }}></i>
                             </div>
                         )
@@ -132,6 +157,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
         })
     }
 
+    //******************** 分页相关 begin ********************
     // 分页单页数据条数选择函数
     onPageSizeSelect = (index, value) => {
         actions.csmdm_interface.loadList({
@@ -141,16 +167,17 @@ export default class Csmdm_interfacePaginationTable extends Component {
             pageSize: value
         })
     }
-
     // 分页组件点击页面数字索引执行函数
     onPageIndexSelect = value => {
         actions.csmdm_interface.loadList({
-            pageIndex: value
+            pageIndex: value,
+            pageSize:this.props.pageSize
         })
         actions.csmdm_interface.updateState({
             pageIndex: value
         })
     }
+    //******************** 分页相关 end ********************
 
     // 流程提交成功后回调函数
     onSubmitSuc = async ()=>{
@@ -249,12 +276,9 @@ export default class Csmdm_interfacePaginationTable extends Component {
                 <Header title='云主数据-资源接口'/>
                 <Csmdm_interfaceForm { ...this.props }/>
                 <div className='table-header mt25'>
-                    <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={() => { self.cellClick({},0) }}>
-                    新增
+                    <Button colors="primary" style={{ "marginLeft": 15 }} size='sm' onClick={() => { self.cellClick({}, 0) }}>
+                        新增
                     </Button>
-                   
-
-
                 </div>
                 <PaginationTable
                         data={list}

@@ -4,7 +4,7 @@ import { Message } from 'tinper-bee';
 
 
 export const success = (msg) => {
-    Message.create({ content: msg, color : 'success' ,duration:2 });
+    Message.create({ content: msg, color : 'success' ,duration:1 });
 }
 
 export const Error = (msg) => {
@@ -40,7 +40,7 @@ export const processData = (response,successMsg) => {
             Error(`错误:${(data && data.detailMsg && convert(data.detailMsg.msg)) || '数据返回出错'}`);
         }else {
             Error(`错误:${(data && data.msg) || '数据返回出错'}`);
-            return;
+            return "error";
         }
     }else{
         Error('请求错误');
