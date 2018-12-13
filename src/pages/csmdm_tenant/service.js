@@ -98,7 +98,7 @@ export const getAllInter = (params) => {
     for(let attr in params){
        url+='&'+attr+'='+params[attr];
     }
-    console.log("url:",url);
+    // console.log("url:",url);
     return request(url, {
         method: "get",
         data: params
@@ -113,7 +113,7 @@ export const getUnAssignedInter = (params) => {
     for(let attr in params){
        url+='&'+attr+'='+params[attr];
     }
-    console.log("url:",url);
+    // console.log("url:",url);
     return request(url, {
         method: "get",
         data: params
@@ -128,7 +128,7 @@ export const getAssignedInter = (params) => {
     for(let attr in params){
        url+='&'+attr+'='+params[attr];
     }
-    console.log("url:",url);
+    // console.log("url:",url);
     return request(url, {
         method: "get",
         data: params

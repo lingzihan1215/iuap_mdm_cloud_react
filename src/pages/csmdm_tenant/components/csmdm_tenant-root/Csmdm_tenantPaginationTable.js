@@ -193,11 +193,6 @@ export default class Csmdm_tenantPaginationTable extends Component {
             tenantId:record["tenant_id"]
         });
 
-        let allInter = this.props.allInterList;
-        let assign = this.props.assignInterList;
-        console.log("allInter:",allInter);
-        console.log("assign:",assign);
-
         this.setState({
             targetKeys:this.props.assignInterList,
             tenantId:record["tenant_id"],
@@ -208,8 +203,8 @@ export default class Csmdm_tenantPaginationTable extends Component {
     handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
         this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] });
 
-        console.log('sourceSelectedKeys: ', sourceSelectedKeys);
-        console.log('targetSelectedKeys: ', targetSelectedKeys);
+        // console.log('sourceSelectedKeys: ', sourceSelectedKeys);
+        // console.log('targetSelectedKeys: ', targetSelectedKeys);
     }
     //穿梭操作
     handleChange = async (nextTargetKeys, direction, moveKeys) => {
@@ -226,15 +221,23 @@ export default class Csmdm_tenantPaginationTable extends Component {
         //分配接口
         await actions.csmdm_tenant.assignTenantInter(assignInterJson);
 
-        console.log('targetKeys: ', this.state.targetKeys);
-        console.log('direction: ', direction);
-        console.log('moveKeys: ', moveKeys);
+        // console.log('targetKeys: ', this.state.targetKeys);
+        // console.log('direction: ', direction);
+        // console.log('moveKeys: ', moveKeys);
     }
     //
     handleScroll = (direction, e) => {
         console.log('direction:', direction);
         console.log('target:', e.target);
     }
+    //分配接口模态框关闭
+    closeAssignInter = async ()=>{
+        this.setState({
+            showModal:false,
+        })
+    }
+    //******************** 分配资源穿梭框 end ********************
+
     // 模态框确认删除
     onModalDel = async (delFlag)=>{
         let {delData} = this.state;
@@ -248,7 +251,6 @@ export default class Csmdm_tenantPaginationTable extends Component {
             delData:[]
         })
     }
-    //******************** 分配资源穿梭框 end ********************
 
     // 表格勾选回调函数，返回选中数据
     onTableSelectedData = data => {
@@ -367,11 +369,6 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={() => { self.cellClick({},0) }}>
                     新增
                     </Button>
-                    <Button colors="primary" style={{"marginLeft":15}} size='sm' onClick={this.open}>
-                    分配资源
-                    </Button>
-
-
                 </div>
                 <PaginationTable
                         data={list}
@@ -391,13 +388,13 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     show={showModal}
                 >
                     <Modal.Header>
-                        <Modal.Title>分配资源</Modal.Title>
+                        <Modal.Title>租户接口资源分配</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
                         <Transfer
                             dataSource={allInterList}
-                            titles={['待分配资源', '已分配资源']}
+                            titles={['待分配接口资源', '已分配接口资源']}
                             targetKeys={state.targetKeys}
                             selectedKeys={state.selectedKeys}
                             onChange={this.handleChange}
@@ -408,8 +405,8 @@ export default class Csmdm_tenantPaginationTable extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={() => this.onModalDel(false)} shape="border" style={{ marginRight: 50 }}>关闭</Button>
-                        <Button onClick={() => this.onModalDel(false)} colors="primary">确认</Button>
+                        {/* <Button onClick={() => this.onModalDel(false)} shape="border" style={{ marginRight: 50 }}>关闭</Button> */}
+                        <Button onClick={() => this.closeAssignInter()} colors="primary">关闭</Button>
                     </Modal.Footer>
                 </Modal>
 

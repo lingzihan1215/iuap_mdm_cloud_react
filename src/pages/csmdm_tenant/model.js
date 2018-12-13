@@ -176,7 +176,7 @@ export default {
 
             // 数据解析
             if (res) {
-                console.log('all inter list:',res);
+                // console.log('all inter list:',res);
 
                 if(res&&res.length){
                     for(let i=0;i<res.length;i++){
@@ -203,7 +203,7 @@ export default {
 
             // 数据解析
             if (res) {
-                console.log('assigned inter list:',res);
+                // console.log('assigned inter list:',res);
 
                 //接口id串数组
                 let assignInterIds = [];
@@ -219,8 +219,6 @@ export default {
                 actions.csmdm_tenant.updateState({
                     assignInterList: assignInterIds,
                 });
-
-                
             }
         },
         //更新租户信息
@@ -231,7 +229,7 @@ export default {
             })
 
             //分配接口资源
-            console.log("assign param:",param);
+            // console.log("assign param:",param);
             let res = processData(await api.assignTenantInter(param),'保存成功');
             if(res){
                window.history.go(-1);
