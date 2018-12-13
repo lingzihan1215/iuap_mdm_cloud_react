@@ -214,6 +214,16 @@ export default class Csmdm_tenantPaginationTable extends Component {
         //更新模板框中记录
         await this.setState({ targetKeys: nextTargetKeys });
 
+        //根据移动方向确定分配接口状态
+        let interStatus = 1;
+        if(direction === "left"){
+            interStatus = 2;
+        }
+        let assignInterJson = { tenantId: "1",interfaceId: moveKeys.join(','),status:interStatus };
+
+        //分配接口
+        await actions.csmdm_tenant.assignTenantInter(assignInterJson);
+
         console.log('targetKeys: ', this.state.targetKeys);
         console.log('direction: ', direction);
         console.log('moveKeys: ', moveKeys);

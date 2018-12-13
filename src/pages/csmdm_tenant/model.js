@@ -93,6 +93,21 @@ export default {
             }
         },
 
+        //更新租户信息
+        async save(param,getState){
+            actions.csmdm_tenant.updateState({
+              showLoading:true
+            })
+            console.log("assign param:",param);
+            let res = processData(await api.saveCsmdm_tenant(param),'保存成功');
+            if(res){
+               window.history.go(-1);
+            }
+            actions.csmdm_tenant.updateState({
+                showLoading:false,
+            });
+        },
+
         /**
          * getSelect：获取下拉列表数据
          * @param {*} param
@@ -143,20 +158,7 @@ export default {
             actions.csmdm_tenant.loadList();
         },
 
-        async save(param,getState){//保存
-            actions.csmdm_tenant.updateState({
-              showLoading:true
-            })
-            let res = processData(await api.saveCsmdm_tenant(param),'保存成功');
-            console.log("保存信息",res);
-            if(res){
-               window.history.go(-1);
-            }
-            actions.csmdm_tenant.updateState({
-                showLoading:false,
-
-            });
-        },
+        
 
         async queryDetail(param,getState) {
             let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
@@ -204,13 +206,12 @@ export default {
                 console.log('assigned inter list:',res);
 
                 //接口id串数组
-                const assignInterIds = [];
+                let assignInterIds = [];
                 if(res&&res.length){
                     for(let i=0;i<res.length;i++){
                         //穿梭框目的框中数组只有key的值
                         //获取接口的id，放在数组中
                         assignInterIds.push(res[i].interface_id);
-
                     }
                 }
 
@@ -221,6 +222,25 @@ export default {
 
                 
             }
+        },
+        //更新租户信息
+        async assignTenantInter(param){
+            // 正在加载数据，显示加载 Loading 图标
+            actions.csmdm_tenant.updateState({
+              showLoading:true
+            })
+
+            //分配接口资源
+            console.log("assign param:",param);
+            let res = processData(await api.assignTenantInter(param),'保存成功');
+            if(res){
+               window.history.go(-1);
+            }
+
+            //隐藏加载 Loading 图标
+            actions.csmdm_tenant.updateState({
+                showLoading:false,
+            });
         },
 
 
