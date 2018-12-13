@@ -33,6 +33,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
             showModal:false,
             targetKeys:[],      //展示在右边列表的数据集，只有key的值，是一个字符串数组
             selectedKeys: [],   //被选中中的记录
+            tenantId:'',
 
             // 表格中所选中的数据，拿到后可以去进行增删改查
             selectData: [],
@@ -199,6 +200,7 @@ export default class Csmdm_tenantPaginationTable extends Component {
 
         this.setState({
             targetKeys:this.props.assignInterList,
+            tenantId:record["tenant_id"],
             showModal:true,
         });
     }
@@ -215,11 +217,11 @@ export default class Csmdm_tenantPaginationTable extends Component {
         await this.setState({ targetKeys: nextTargetKeys });
 
         //根据移动方向确定分配接口状态
-        let interStatus = 1;
-        if(direction === "left"){
-            interStatus = 2;
-        }
-        let assignInterJson = { tenantId: "1",interfaceId: moveKeys.join(','),status:interStatus };
+        let assignInterJson = {
+            tenantId: this.state.tenantId,
+            interfaceId: moveKeys.join(','),
+            status: direction === "right" ? 1 : 2
+        };
 
         //分配接口
         await actions.csmdm_tenant.assignTenantInter(assignInterJson);
