@@ -108,6 +108,12 @@ export default {
             });
         },
 
+        //获取租户详情
+        async queryDetail(param,getState) {
+            let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
+            return content[0];
+        },
+
         /**
          * getSelect：获取下拉列表数据
          * @param {*} param
@@ -156,13 +162,6 @@ export default {
             })
             let res=processData(await api.delCsmdm_tenant(param.param),'删除成功');
             actions.csmdm_tenant.loadList();
-        },
-
-        
-
-        async queryDetail(param,getState) {
-            let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
-            return content[0];
         },
 
         /**

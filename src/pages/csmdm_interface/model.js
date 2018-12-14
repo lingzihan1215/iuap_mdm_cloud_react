@@ -101,6 +101,12 @@ export default {
             });
         },
 
+        //获取接口详情
+        async queryDetail(param,getState) {
+            let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
+            return content[0];
+        },
+
         /**
          * getSelect：获取下拉列表数据
          * @param {*} param
@@ -151,10 +157,7 @@ export default {
             actions.csmdm_interface.loadList();
         },
 
-        async queryDetail(param,getState) {
-            let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
-            return content[0];
-        },
+        
 
     }
 };

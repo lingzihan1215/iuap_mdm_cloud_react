@@ -1,16 +1,15 @@
 import request from "utils/request";
 //定义接口地址
 const URL = {
-    "GET_DETAIL":  `${GROBAL_HTTP_CTX}/inter/listInter`,
-    "SAVE_ORDER":  `${GROBAL_HTTP_CTX}/inter/save`,
     "GET_LIST":  `${GROBAL_HTTP_CTX}/inter/listInter`,
+    "UPDATE_INTER":  `${GROBAL_HTTP_CTX}/inter/save`,
+    "GET_DETAIL":  `${GROBAL_HTTP_CTX}/inter/listInter`,
+
     "DEL_ORDER":  `${GROBAL_HTTP_CTX}/inter/deleteBatch`,
-
-
 }
 
 /**
- * 获取列表
+ * 获取接口列表
  * @param {*} params
  */
 export const getList = (params) => {
@@ -25,6 +24,24 @@ export const getList = (params) => {
     return request(url, {
         method: "get",
         data: params
+    });
+}
+
+//更新接口
+export const saveCsmdm_interface = (params) => {
+    return request(URL.UPDATE_INTER, {
+        method: "post",
+        data: params
+    });
+}
+
+/**
+ * 查询接口详情
+*/
+export const getDetail = (params) => {
+    return request(URL.GET_DETAIL, {
+        method: "get",
+        param: params
     });
 }
 
@@ -55,12 +72,7 @@ export const saveList = (params) => {
         data:params
     });
 }
-export const saveCsmdm_interface = (params) => {
-    return request(URL.SAVE_ORDER, {
-        method: "post",
-        data: params
-    });
-}
+
 export const delCsmdm_interface = (params) => {
     return request(URL.DEL_ORDER, {
         method: "post",
@@ -68,13 +80,4 @@ export const delCsmdm_interface = (params) => {
     });
 }
 
-/**
- * 通过search_id 查询列表详情
-*/
 
-export const getDetail = (params) => {
-    return request(URL.GET_DETAIL, {
-        method: "get",
-        param: params
-    });
-}

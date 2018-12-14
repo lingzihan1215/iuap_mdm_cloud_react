@@ -4,8 +4,8 @@ const URL = {
     //租户相关
     "GET_LIST":  `${GROBAL_HTTP_CTX}/tenant/list`,                              //获取租户列表
     "UPDATE_TENANT":  `${GROBAL_HTTP_CTX}/tenant/updateTenant`,                 //更新租户信息
+    "GET_DETAIL":  `${GROBAL_HTTP_CTX}/tenant/list`,                            //获取租户详情
 
-    "GET_DETAIL":  `${GROBAL_HTTP_CTX}/tenant/list`,
     "DEL_ORDER":  `${GROBAL_HTTP_CTX}/tenant/deleteBatch`,
 
     //租户接口相关
@@ -45,6 +45,16 @@ export const saveCsmdm_tenant = (params) => {
 }
 
 /**
+ * 查询租户详情
+*/
+export const getDetail = (params) => {
+    return request(URL.GET_DETAIL, {
+        method: "get",
+        param: params
+    });
+}
+
+/**
  * 获取下拉列表
  * @param {*} params
  */
@@ -76,16 +86,6 @@ export const delCsmdm_tenant = (params) => {
     return request(URL.DEL_ORDER, {
         method: "post",
         data: params
-    });
-}
-
-/**
- * 通过search_id 查询列表详情
-*/
-export const getDetail = (params) => {
-    return request(URL.GET_DETAIL, {
-        method: "get",
-        param: params
     });
 }
 
