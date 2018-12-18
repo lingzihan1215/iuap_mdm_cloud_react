@@ -41,11 +41,15 @@ class Csmdm_tenantForm extends Component {
      * @param {*} values 表单数据
      */
     search = (error,values) => {
-        this.props.form.validateFields(async (err, values) => {
-            values.pageIndex = this.props.pageIndex || 0;
+        this.props.form.validateFields(async (err, values) => {  
+            values.pageIndex = 0;//查询操作后从第一页开始显示
             values.pageSize = this.props.pageSize || 10;
-            let {
-            } = this.state;
+
+            //设置搜索参数
+            actions.csmdm_tenant.updateState({
+                searchParam:values
+            })
+
             await actions.csmdm_tenant.loadList(values);
         });
 

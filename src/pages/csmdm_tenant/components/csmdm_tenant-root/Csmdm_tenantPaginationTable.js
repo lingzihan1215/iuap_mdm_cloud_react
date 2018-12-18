@@ -268,21 +268,36 @@ export default class Csmdm_tenantPaginationTable extends Component {
     }
 
     //******************** 分页相关 begin ********************
-    // 分页单页数据条数选择函数
+    // 更换分页条数
     onPageSizeSelect = (index, value) => {
-        actions.csmdm_tenant.loadList({
-            pageSize: value
-        })
+        //带搜索参数
+        let curSearchParam = this.props.searchParam;
+        // console.log("curSearchParam:",curSearchParam);
+        curSearchParam.pageIndex = 0;
+        curSearchParam.pageSize = value;
+        actions.csmdm_tenant.loadList(curSearchParam);
+
+        // actions.csmdm_tenant.loadList({
+        //     pageSize: value
+        // })
         actions.csmdm_tenant.updateState({
             pageSize: value
         })
     }
-    // 分页组件点击页面数字索引执行函数
+    // 点击分页
     onPageIndexSelect = value => {
-        actions.csmdm_tenant.loadList({
-            pageIndex: value,
-            pageSize:this.props.pageSize
-        })
+        //带搜索参数
+        let curSearchParam = this.props.searchParam;
+        // console.log("curSearchParam:",curSearchParam);
+        curSearchParam.pageIndex = value;
+        curSearchParam.pageSize = this.props.pageSize;
+        actions.csmdm_tenant.loadList(curSearchParam);
+
+        // actions.csmdm_tenant.loadList({
+        //     pageIndex: value,
+        //     pageSize:this.props.pageSize
+        // })
+
         actions.csmdm_tenant.updateState({
             pageIndex: value
         })

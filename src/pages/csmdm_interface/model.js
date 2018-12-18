@@ -77,7 +77,7 @@ export default {
                         res.content[i].interface_status = res.content[i].interface_status === 1?"可用":"不可用";
                     }
                 }
-                console.log('res content',res.content);
+                // console.log('res content',res.content);
                 actions.csmdm_interface.updateState({
                     list: res.content,
                     pageIndex:res.number + 1,

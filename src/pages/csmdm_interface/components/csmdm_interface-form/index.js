@@ -34,10 +34,15 @@ class Csmdm_interfaceForm extends Component {
      */
     search = (error,values) => {
         this.props.form.validateFields(async (err, values) => {
-            values.pageIndex = this.props.pageIndex || 0;
+            // values.pageIndex = this.props.pageIndex || 0;
+            values.pageIndex = 0;//查询操作后从第一页开始显示
             values.pageSize = this.props.pageSize || 10;
-            let {
-            } = this.state;
+
+            //设置搜索参数
+            actions.csmdm_interface.updateState({
+                searchParam:values
+            })
+
             await actions.csmdm_interface.loadList(values);
         });
 

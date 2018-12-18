@@ -158,21 +158,37 @@ export default class Csmdm_interfacePaginationTable extends Component {
     }
 
     //******************** 分页相关 begin ********************
-    // 分页单页数据条数选择函数
+    // 更换分页条数
     onPageSizeSelect = (index, value) => {
-        actions.csmdm_interface.loadList({
-            pageSize: value
-        })
+        //带搜索参数
+        let curSearchParam = this.props.searchParam;
+        // console.log("curSearchParam:",curSearchParam);
+        curSearchParam.pageIndex = 0;
+        curSearchParam.pageSize = value;
+        actions.csmdm_interface.loadList(curSearchParam);
+
+        // actions.csmdm_interface.loadList({
+        //     pageSize: value
+        // })
+
         actions.csmdm_interface.updateState({
             pageSize: value
         })
     }
-    // 分页组件点击页面数字索引执行函数
+    // 点击分页
     onPageIndexSelect = value => {
-        actions.csmdm_interface.loadList({
-            pageIndex: value,
-            pageSize:this.props.pageSize
-        })
+        //带搜索参数
+        let curSearchParam = this.props.searchParam;
+        // console.log("curSearchParam:",curSearchParam);
+        curSearchParam.pageIndex = value;
+        curSearchParam.pageSize = this.props.pageSize;
+        actions.csmdm_interface.loadList(curSearchParam);
+
+        // actions.csmdm_interface.loadList({
+        //     pageIndex: value,
+        //     pageSize:this.props.pageSize
+        // })
+
         actions.csmdm_interface.updateState({
             pageIndex: value
         })
@@ -270,7 +286,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
         let { list, showLoading, pageIndex, pageSize, totalPages , total } = this.props;
         let {selectData,showModal} = this.state;
         let exportProps = { total, pageIndex, pageSize, selectData, list};
-        console.log("list",list)
+        // console.log("list",list)
         return (
             <div className='csmdm_interface-root'>
                 <Header title='云主数据-资源接口'/>

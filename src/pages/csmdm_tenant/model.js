@@ -71,6 +71,7 @@ export default {
             } else {
                 param = {}
             }
+            // console.log("param:",param);
             // 调用 getList 请求数据
             let res = processData(await api.getList(param));
             actions.csmdm_tenant.updateState({  showLoading:false })
