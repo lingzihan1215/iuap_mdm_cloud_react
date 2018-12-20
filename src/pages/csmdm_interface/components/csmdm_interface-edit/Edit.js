@@ -234,8 +234,9 @@ class Edit extends Component {
                                         }
                                         )}>
                                         <Option value="">请选择</Option>
-                                            <Option value={ "1" }>客商</Option>
-                                            <Option value={ "2" }>银行</Option>
+                                            <Option value={ "1" }>内部</Option>
+                                            <Option value={ "2" }>客商</Option>
+                                            <Option value={ "3" }>银行</Option>
                                     </Select>
 
 
