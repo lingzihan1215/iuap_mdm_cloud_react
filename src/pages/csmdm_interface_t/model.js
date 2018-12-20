@@ -22,7 +22,7 @@ import moment from 'moment';
 
 export default {
     // 确定 Store 中的数据模型作用域
-    name: "csmdm_interface",
+    name: "csmdm_interface_t",
     // 设置当前 Model 所需的初始化 state
     initialState: {
         rowData:{},
@@ -59,7 +59,7 @@ export default {
          */
         async loadList(param, getState) {
             // 正在加载数据，显示加载 Loading 图标
-            actions.csmdm_interface.updateState({ showLoading:true })
+            actions.csmdm_interface_t.updateState({ showLoading:true })
             if(param){
                 param.pageIndex = param.pageIndex ? param.pageIndex - 1 : 0;
                 param.pageSize = param.pageSize ? param.pageSize : 10;
@@ -68,7 +68,7 @@ export default {
             }
             // 调用 getList 请求数据
             let res = processData(await api.getList(param));
-            actions.csmdm_interface.updateState({  showLoading:false })
+            actions.csmdm_interface_t.updateState({  showLoading:false })
             if (res) {
                 if(res.content&&res.content.length){
                     for(let i=0;i<res.content.length;i++){
@@ -78,7 +78,7 @@ export default {
                     }
                 }
                 // console.log('res content',res.content);
-                actions.csmdm_interface.updateState({
+                actions.csmdm_interface_t.updateState({
                     list: res.content,
                     pageIndex:res.number + 1,
                     totalPages:res.totalPages,
@@ -87,54 +87,14 @@ export default {
             }
         },
 
-        //更新接口信息
-        async save(param,getState){
-            actions.csmdm_interface.updateState({
-              showLoading:true
-            })
-            let res = processData(await api.saveCsmdm_interface(param),'保存成功');
-            if(res != "error"){
-               window.history.go(-1);
-            }
-            actions.csmdm_interface.updateState({
-                showLoading:false,
-            });
-        },
-
         //获取接口详情
         async queryDetail(param,getState) {
             let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
             return content[0];
         },
 
-        /**
-         * getSelect：保存table数据
-         * @param {*} param
-         * @param {*} getState
-         */
-        async saveList(param, getState) {
-            let result = await api.saveList(param);
-            return result;
-        },
-        /**
-         * 删除table数据
-         * @param {*} id
-         * @param {*} getState
-         */
-        async removeList(id, getState) {
-            let result = await api.deleteList([{id}]);
-            return result;
-        },
-
-        async delItem(param,getState){
-            actions.csmdm_interface.updateState({
-              showLoading:true
-            })
-            let res=processData(await api.delCsmdm_interface(param.param),'删除成功');
-            actions.csmdm_interface.loadList();
-        },
-
         
+
 
     }
 };

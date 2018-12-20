@@ -26,7 +26,6 @@ class Csmdm_interfaceForm extends Component {
     }
     componentWillMount(){
         // 获得云主数据-资源接口列表数据
-        actions.csmdm_interface.getOrderTypes();
     }
     /** 查询数据
      * @param {*} error 校验是否成功

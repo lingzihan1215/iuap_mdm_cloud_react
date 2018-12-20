@@ -5,19 +5,19 @@ import { Button,Message,Modal, Loading } from 'tinper-bee';
 import Select from 'bee-select';
 import moment from "moment/moment";
 import Header from 'components/Header';
-import Csmdm_interfaceForm from '../csmdm_interface-form';
+import Csmdm_interface_tForm from '../csmdm_interface_t-form';
 import './index.less'
-export default class Csmdm_interfacePaginationTable extends Component {
-    constructor(props) {
+export default class Csmdm_interface_tPaginationTable extends Component {
+    constructor(props){
         super(props);
-        let self = this;
+        let self=this;
         this.state = {
             // 表格中所选中的数据，拿到后可以去进行增删改查
             selectData: [],
             step: 10,
-            showModal: false,
-            delData: [],
-            column: [
+            showModal:false,
+            delData:[],
+            column:[
                 // {
                 //     title: "接口编号",
                 //     dataIndex: "interface_id",
@@ -100,8 +100,6 @@ export default class Csmdm_interfacePaginationTable extends Component {
                         return (
                             <div className='operation-btn'>
                                 <i size='sm' className='uf uf-search edit-btn' onClick={() => { self.cellClick(record, 2) }}></i>
-                                <i size='sm' className='uf uf-pencil edit-btn' onClick={() => { self.cellClick(record, 1) }}></i>
-                                <i size='sm' className='uf uf-del del-btn' onClick={() => { self.delItem(record, index) }}></i>
                             </div>
                         )
                     }
@@ -111,7 +109,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
     }
     
     componentDidMount(){
-        actions.csmdm_interface.loadList();//table数据
+        actions.csmdm_interface_t.loadList();//table数据
     }
 
     tabelSelect = (data) => {//tabel选中数据
@@ -124,7 +122,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
      */
 
     cellClick = async (record,btnFlag) => {
-        await actions.csmdm_interface.updateState({
+        await actions.csmdm_interface_t.updateState({
             rowData : record,
         });
 
@@ -134,24 +132,15 @@ export default class Csmdm_interfacePaginationTable extends Component {
         }
         actions.routing.push(
             {
-                pathname: 'csmdm_interface-edit',
-                search:`?interface_id=${id}&btnFlag=${btnFlag}`//yangyfu，改成自己的
+                pathname: 'csmdm_interface_t-edit',
+                search:`?interface_id=${id}`//yangyfu，改成自己的
             }
         )
     }
 
-    // 删除操作
-    delItem = (record, index) => {
-        this.setState({
-            showModal:true,
-            delData:[{ id: record.id,ts: record.ts }]
-        });
-
-    }
 
     // 表格勾选回调函数，返回选中数据
     onTableSelectedData = data => {
-        console.log(data);
         this.setState({
             selectData: data
         })
@@ -165,13 +154,9 @@ export default class Csmdm_interfacePaginationTable extends Component {
         // console.log("curSearchParam:",curSearchParam);
         curSearchParam.pageIndex = 0;
         curSearchParam.pageSize = value;
-        actions.csmdm_interface.loadList(curSearchParam);
+        actions.csmdm_interface_t.loadList(curSearchParam);
 
-        // actions.csmdm_interface.loadList({
-        //     pageSize: value
-        // })
-
-        actions.csmdm_interface.updateState({
+        actions.csmdm_interface_t.updateState({
             pageSize: value
         })
     }
@@ -182,14 +167,9 @@ export default class Csmdm_interfacePaginationTable extends Component {
         // console.log("curSearchParam:",curSearchParam);
         curSearchParam.pageIndex = value;
         curSearchParam.pageSize = this.props.pageSize;
-        actions.csmdm_interface.loadList(curSearchParam);
+        actions.csmdm_interface_t.loadList(curSearchParam);
 
-        // actions.csmdm_interface.loadList({
-        //     pageIndex: value,
-        //     pageSize:this.props.pageSize
-        // })
-
-        actions.csmdm_interface.updateState({
+        actions.csmdm_interface_t.updateState({
             pageIndex: value
         })
     }
@@ -197,8 +177,8 @@ export default class Csmdm_interfacePaginationTable extends Component {
 
     // 流程提交成功后回调函数
     onSubmitSuc = async ()=>{
-        await actions.csmdm_interface.loadList();
-        actions.csmdm_interface.updateState({showLoading:false});
+        await actions.csmdm_interface_t.loadList();
+        actions.csmdm_interface_t.updateState({showLoading:false});
         Message.create({content: '单据提交成功', color: 'success'});
         this.setState({
             selectData: data
@@ -207,12 +187,12 @@ export default class Csmdm_interfacePaginationTable extends Component {
     
     // 提交操作初始执行操作
     onSubmitStart = ()=>{
-        actions.csmdm_interface.updateState({showLoading:true});
+        actions.csmdm_interface_t.updateState({showLoading:true});
 
     }
     // 提交失败回调函数
     onSubmitFail = (error)=>{
-        actions.csmdm_interface.updateState({showLoading:false});
+        actions.csmdm_interface_t.updateState({showLoading:false});
         Message.create({content: error.msg, color: 'danger'});
 
     }
@@ -220,8 +200,8 @@ export default class Csmdm_interfacePaginationTable extends Component {
     // 撤回成功回调函数
     onRecallSuc = async ()=>{
         console.log("onRecallSuc 成功进入recall回调");
-        await actions.csmdm_interface.loadList();
-        actions.csmdm_interface.updateState({showLoading:false});
+        await actions.csmdm_interface_t.loadList();
+        actions.csmdm_interface_t.updateState({showLoading:false});
         Message.create({content: '单据撤回成功', color: 'success'});
         this.setState({
             selectData: data
@@ -230,28 +210,28 @@ export default class Csmdm_interfacePaginationTable extends Component {
 
     // 撤回失败回调函数
     onRecallFail = (error)=>{
-        actions.csmdm_interface.updateState({showLoading:false});
+        actions.csmdm_interface_t.updateState({showLoading:false});
         Message.create({content: error.msg, color: 'danger'});
 
     }
 
 
     onSubmitEnd = () => {
-        actions.csmdm_interface.updateState({ showLoading: false });
+        actions.csmdm_interface_t.updateState({ showLoading: false });
     }
 
     // 撤回操作执行起始函数,通常用于设置滚动条
     onRecallStart = ()=>{
-        actions.csmdm_interface.updateState({showLoading:true});
+        actions.csmdm_interface_t.updateState({showLoading:true});
     }
 
     // 查看方法
     onExamine = async (text, record, index)=> {
         console.log("record", record);
-        await actions.csmdm_interface.updateState({rowData:record});
+        await actions.csmdm_interface_t.updateState({rowData:record});
         await actions.routing.push(
             {
-                pathname: 'csmdm_interface-edit',
+                pathname: 'csmdm_interface_t-edit',
                 detailObj: record,
             }
         )
@@ -261,7 +241,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
     onModalDel = async (delFlag)=>{
         let {delData} = this.state;
         if(delFlag){
-            await actions.csmdm_interface.delItem({
+            await actions.csmdm_interface_t.delItem({
                 param: delData
             });
         }
@@ -288,14 +268,10 @@ export default class Csmdm_interfacePaginationTable extends Component {
         let exportProps = { total, pageIndex, pageSize, selectData, list};
         // console.log("list",list)
         return (
-            <div className='csmdm_interface-root'>
-                <Header title='云主数据-资源接口'/>
-                <Csmdm_interfaceForm { ...this.props }/>
-                <div className='table-header mt25'>
-                    <Button colors="primary" style={{ "marginLeft": 15 }} size='sm' onClick={() => { self.cellClick({}, 0) }}>
-                        新增
-                    </Button>
-                </div>
+            <div className='csmdm_interface_t-root'>
+                <Header title='云主数据-租户资源接口'/>
+                <Csmdm_interface_tForm { ...this.props }/>
+
                 <PaginationTable
                         data={list}
                         pageIndex={pageIndex}
@@ -310,22 +286,6 @@ export default class Csmdm_interfacePaginationTable extends Component {
                         onPageIndexSelect={this.onPageIndexSelect}
                 />
                 <Loading show={showLoading} loadingType="line" />
-                <Modal
-                        show={showModal}
-                        onHide={this.close} >
-                    <Modal.Header>
-                        <Modal.Title>确认删除</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        是否删除选中内容
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button onClick={()=>this.onModalDel(false)} shape="border" style={{ marginRight: 50 }}>关闭</Button>
-                        <Button onClick={()=>this.onModalDel(true)} colors="primary">确认</Button>
-                    </Modal.Footer>
-                </Modal>
             </div>
 
         )

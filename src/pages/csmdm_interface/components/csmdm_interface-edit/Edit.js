@@ -28,7 +28,6 @@ class Edit extends Component {
         }
     }
     async componentWillMount() {
-        await actions.csmdm_interface.getOrderTypes();
         let searchObj = queryString.parse(this.props.location.search);
         let { btnFlag } = searchObj;
         if (btnFlag && btnFlag > 0) {
