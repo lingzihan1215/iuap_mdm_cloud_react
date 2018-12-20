@@ -18,23 +18,23 @@ export default class Csmdm_interface_tPaginationTable extends Component {
             showModal:false,
             delData:[],
             column:[
-                // {
-                //     title: "接口编号",
-                //     dataIndex: "interface_id",
-                //     key: "interface_id",
-                //      width:200,
-                // },
+                {
+                    title: "接口编号",
+                    dataIndex: "interface_id",
+                    key: "interface_id",
+                     width:80,
+                },
                 {
                     title: "接口编码",
                     dataIndex: "interface_code",
                     key: "interface_code",
-                    width: 150,
+                    width: 160,
                 },
                 {
                     title: "接口名称",
                     dataIndex: "interface_name",
                     key: "interface_name",
-                    width: 150,
+                    width: 160,
                 },
                 {
                     title: "接口描述",
