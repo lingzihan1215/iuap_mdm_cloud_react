@@ -297,6 +297,7 @@ export default class Csmdm_interfacePaginationTable extends Component {
                     </Button>
                 </div>
                 <PaginationTable
+                        needMultiSelect={false}
                         data={list}
                         pageIndex={pageIndex}
                         pageSize={pageSize}

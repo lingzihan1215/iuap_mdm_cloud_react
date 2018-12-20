@@ -94,7 +94,7 @@ export default class Csmdm_interface_tPaginationTable extends Component {
                     title: "操作",
                     dataIndex: "d",
                     key: "d",
-                    width: 100,
+                    width: 50,
                     fixed: "right",
                     render(text, record, index) {
                         return (
@@ -269,10 +269,11 @@ export default class Csmdm_interface_tPaginationTable extends Component {
         // console.log("list",list)
         return (
             <div className='csmdm_interface_t-root'>
-                <Header title='云主数据-租户资源接口'/>
+                <Header title='云主数据-租户-资源接口'/>
                 <Csmdm_interface_tForm { ...this.props }/>
 
                 <PaginationTable
+                        needMultiSelect={false}
                         data={list}
                         pageIndex={pageIndex}
                         pageSize={pageSize}

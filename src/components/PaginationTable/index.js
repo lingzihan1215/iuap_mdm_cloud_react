@@ -5,21 +5,17 @@ import Checkbox from 'bee-checkbox';
 import Table from 'bee-table';
 import PropTypes from 'prop-types';
 import Pagination from 'bee-pagination';
-import multiSelect from "bee-table/build/lib/newMultiSelect";
+// import multiSelect from "bee-table/build/lib/newMultiSelect";
+import multiSelect from "bee-table/build/lib/newMultiSelect" 
 import filterColumn from "bee-table/build/lib/filterColumn";
 import dragColumn from "bee-table/build/lib/dragColumn";
-import sort from "bee-table/build/lib/sort.js";
 
 import 'bee-table/build/Table.css';
 import 'bee-pagination/build/Pagination.css';
 import './index.less'
 
-//排序
-const ComplexTable = sort(Table, Icon);
-const MultiSelectTable = multiSelect(ComplexTable, Checkbox);
-
 // const DragColumnTable = dragColumn(multiSelect(Table, Checkbox));
-// const MultiSelectTable = multiSelect(Table, Checkbox);
+const MultiSelectTable = multiSelect(Table, Checkbox);
 // const DragColumnTable = filterColumn(dragColumn(multiSelect(Table, Checkbox)),Popover);
 
 const propTypes = {
@@ -58,7 +54,8 @@ const defaultProps = {
     columns: [],
     onTableSelectedData: (value) => { },
     onPageSizeSelect: (value) => { },
-    onPageIndexSelect: (value) => { }
+    onPageIndexSelect: (value) => { },
+    needMultiSelect:true
 };
 
 
@@ -111,27 +108,42 @@ class PaginationTable extends Component {
         const { 
             data, showLoading, pageSize,
             pageIndex, totalPages, columns,checkMinSize,
-            onTableSelectedData, onPageSizeSelect, onPageIndexSelect,
-            scroll,title,footer,total,
+            onTableSelectedData, onPageSizeSelect, onPageIndexSelect,getSelectedDataFunc,
+            scroll,title,footer,total,needMultiSelect
         } = this.props;
         const step = this.state.step;
         let dataNumSelect = [step, step * 2, step * 3, step * 4];
         
         return (
             <div className="table-list">
-                <MultiSelectTable
-                    bordered
-                    loading={{ show: showLoading, loadingType: "line" }}
-                    rowKey={(r, i) => i}
-                    columns={columns}
-                    data={data}
-                    multiSelect={{type: "checkbox"}}
-                    getSelectedDataFunc={onTableSelectedData}
-                    scroll={scroll}
-                    title={title}
-                    footer={footer}
-                    checkMinSize={checkMinSize}
-                />
+                {needMultiSelect ?
+                    <MultiSelectTable
+                        bordered
+                        loading={{ show: showLoading, loadingType: "line" }}
+                        rowKey={(r, i) => i}
+                        columns={columns}
+                        data={data}
+                        multiSelect={{type: "checkbox"}}
+                        getSelectedDataFunc={getSelectedDataFunc}
+                        scroll={scroll}
+                        title={title}
+                        footer={footer}
+                        checkMinSize={checkMinSize}
+                    />:
+                    <Table
+                        bordered
+                        loading={{ show: showLoading, loadingType: "line" }}
+                        rowKey={(r, i) => i}
+                        columns={columns}
+                        data={data}
+                        multiSelect={{type: "checkbox"}}
+                        getSelectedDataFunc={getSelectedDataFunc}
+                        scroll={scroll}
+                        title={title}
+                        footer={footer}
+                        checkMinSize={checkMinSize}
+                    />
+                }
                 <div className='pagination'>
                     <Pagination
                         first
@@ -144,8 +156,8 @@ class PaginationTable extends Component {
                         onDataNumSelect={onPageSizeSelect}
                         onSelect={onPageIndexSelect}
                         showJump={true}
-                        dataNum={4}
-                        maxButtons={5}
+                        dataNum={10}
+                        maxButtons={4}
                         dataNumSelect={dataNumSelect}
                         total={total}
                     />
