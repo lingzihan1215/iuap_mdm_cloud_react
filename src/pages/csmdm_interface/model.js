@@ -103,7 +103,6 @@ export default {
 
         //获取接口详情
         async queryDetail(param,getState) {
-            debugger
             let {data:{data:{content}}}=await api.getDetail(param);//yangyfu，改成自己的
             return content[0];
         },

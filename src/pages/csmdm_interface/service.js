@@ -39,7 +39,6 @@ export const saveCsmdm_interface = (params) => {
  * 查询接口详情
 */
 export const getDetail = (params) => {
-    debugger
     return request(URL.GET_DETAIL, {
         method: "get",
         param: params

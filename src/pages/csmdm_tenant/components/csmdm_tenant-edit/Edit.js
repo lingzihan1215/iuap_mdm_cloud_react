@@ -36,7 +36,7 @@ class Edit extends Component {
             let tempRowData = await actions.csmdm_tenant.queryDetail({ tenant_id });//yangyfu，改成自己的
             let rowData = this.handleRefShow(tempRowData) || {};
 
-            console.log('rowData',rowData);
+            // console.log('rowData',rowData);
             this.setState({
                 rowData:rowData,
             })
