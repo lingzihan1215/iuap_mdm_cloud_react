@@ -27,7 +27,10 @@ class Edit extends Component {
             fileNameData: props.rowData.attachment || [],//上传附件数据
         }
     }
-    async componentWillMount() {
+
+    //查询数据
+    async componentDidMount() {
+        debugger
         let searchObj = queryString.parse(this.props.location.search);
         let { btnFlag } = searchObj;
         if (btnFlag && btnFlag > 0) {
@@ -35,18 +38,17 @@ class Edit extends Component {
             let tempRowData = await actions.csmdm_interface.queryDetail({ interface_id });
             let rowData = this.handleRefShow(tempRowData) || {};
 
-            console.log('rowData',rowData);
+            // console.log('rowData',rowData);
             this.setState({
                 rowData:rowData,
             })
         }
-
     }
+
     save = () => {//保存
         this.props.form.validateFields(async (err, values) => {
             values.attachment = this.state.fileNameData;
-            let numArray = [
-            ];
+            let numArray = [];
             for (let i = 0, len = numArray.length; i < len; i++) {
                 values[numArray[i]] = Number(values[numArray[i]]);
             }
@@ -88,7 +90,7 @@ class Edit extends Component {
 
     // 动态显示标题
     onChangeHead = (btnFlag) => {
-        let titleArr = ["新增","编辑","详情"];
+        let titleArr = ["新增资源接口","资源接口编辑","资源接口详情"];
         return titleArr[btnFlag]||'新增';
     }
 
@@ -108,14 +110,14 @@ class Edit extends Component {
     render() {
         const self = this;
 
-        let { btnFlag,appType, id, processDefinitionId, processInstanceId } = queryString.parse(this.props.location.search);
+        let { btnFlag, } = queryString.parse(this.props.location.search);
         btnFlag = Number(btnFlag);
-        let {rowData,
-        } = this.state;
+        let {rowData,} = this.state;
 
 
         let title = this.onChangeHead(btnFlag);
-        let { interface_id,interface_desc,interface_code,interface_name,interface_type,interface_status, } = rowData;
+        let { interface_id,interface_desc,interface_code,interface_name,interface_type,
+            interface_status, charge_type, charge_type_desc} = rowData;
         const { getFieldProps, getFieldError } = this.props.form;
 
         return (
@@ -134,155 +136,178 @@ class Edit extends Component {
                     ) : ''}
                 </Header>
                 <Row className='detail-body'>
-
-                            <Col md={4} xs={6}>
-                                <Label>
-                                    接口编号：
+                    <Col md={4} xs={6}>
+                        <Label>
+                            接口编号：
                                 </Label>
-                                    <FormControl disabled={btnFlag == 2||true}
-                                        {
-                                        ...getFieldProps('interface_id', {
-                                            validateTrigger: 'onBlur',
-                                            initialValue: interface_id+'' || '',
-                                            rules: [{
-                                                message: '请输入接口编号',
-                                            }],
-                                        }
-                                        )}
-                                    />
-
-
-                                <span className='error'>
-                                    {getFieldError('interface_id')}
-                                </span>
-                            </Col>
-                            <Col md={4} xs={6}>
-                                <Label>
-                                    接口描述：
+                        <FormControl disabled={btnFlag == 2 || true}
+                            {
+                            ...getFieldProps('interface_id', {
+                                validateTrigger: 'onBlur',
+                                initialValue: interface_id + '' || '',
+                                rules: [{
+                                    message: '请输入接口编号',
+                                }],
+                            }
+                            )}
+                        />
+                        <span className='error'>
+                            {getFieldError('interface_id')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            接口编码：
                                 </Label>
-                                    <FormControl disabled={btnFlag == 2||false}
-                                        {
-                                        ...getFieldProps('interface_desc', {
-                                            validateTrigger: 'onBlur',
-                                            initialValue: interface_desc || '',
-                                            rules: [{
-                                                type:'string',required: true,pattern:/\S+/ig, message: '请输入接口描述',
-                                            }],
-                                        }
-                                        )}
-                                    />
-
-
-                                <span className='error'>
-                                    {getFieldError('interface_desc')}
-                                </span>
-                            </Col>
-                            <Col md={4} xs={6}>
-                                <Label>
-                                    接口编码：
+                        <FormControl disabled={btnFlag == 2 || false}
+                            {
+                            ...getFieldProps('interface_code', {
+                                validateTrigger: 'onBlur',
+                                initialValue: interface_code || '',
+                                rules: [{
+                                    type: 'string', required: true, pattern: /\S+/ig, message: '请输入接口编码',
+                                }],
+                            }
+                            )}
+                        />
+                        <span className='error'>
+                            {getFieldError('interface_code')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            接口名称：
                                 </Label>
-                                    <FormControl disabled={btnFlag == 2||false}
-                                        {
-                                        ...getFieldProps('interface_code', {
-                                            validateTrigger: 'onBlur',
-                                            initialValue: interface_code || '',
-                                            rules: [{
-                                                type:'string',required: true,pattern:/\S+/ig, message: '请输入接口编码',
-                                            }],
-                                        }
-                                        )}
-                                    />
-
-
-                                <span className='error'>
-                                    {getFieldError('interface_code')}
-                                </span>
-                            </Col>
-                            <Col md={4} xs={6}>
-                                <Label>
-                                    接口名称：
+                        <FormControl disabled={btnFlag == 2 || false}
+                            {
+                            ...getFieldProps('interface_name', {
+                                validateTrigger: 'onBlur',
+                                initialValue: interface_name || '',
+                                rules: [{
+                                    type: 'string', required: true, pattern: /\S+/ig, message: '请输入接口名称',
+                                }],
+                            }
+                            )}
+                        />
+                        <span className='error'>
+                            {getFieldError('interface_name')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            接口描述：
                                 </Label>
-                                    <FormControl disabled={btnFlag == 2||false}
-                                        {
-                                        ...getFieldProps('interface_name', {
-                                            validateTrigger: 'onBlur',
-                                            initialValue: interface_name || '',
-                                            rules: [{
-                                                type:'string',required: true,pattern:/\S+/ig, message: '请输入接口名称',
-                                            }],
-                                        }
-                                        )}
-                                    />
-
-
-                                <span className='error'>
-                                    {getFieldError('interface_name')}
-                                </span>
-                            </Col>
-                            <Col md={4} xs={6}>
-                                <Label>
-                                    接口类型：
+                        <FormControl disabled={btnFlag == 2 || false}
+                            {
+                            ...getFieldProps('interface_desc', {
+                                validateTrigger: 'onBlur',
+                                initialValue: interface_desc || '',
+                                rules: [{
+                                    type: 'string', required: true, pattern: /\S+/ig, message: '请输入接口描述',
+                                }],
+                            }
+                            )}
+                        />
+                        <span className='error'>
+                            {getFieldError('interface_desc')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            接口类型：
                                 </Label>
-                                    <Select disabled={btnFlag == 2}
-                                        {
-                                        ...getFieldProps('interface_type', {
-                                            initialValue: typeof interface_type === 'undefined' ? "" : interface_type ,
-                                            rules: [{
-                                                required: true, message: '请选择接口类型',
-                                            }],
-                                        }
-                                        )}>
-                                        <Option value="">请选择</Option>
-                                            <Option value={ "1" }>内部</Option>
-                                            <Option value={ "2" }>客商</Option>
-                                            <Option value={ "3" }>银行</Option>
-                                    </Select>
-
-
-                                <span className='error'>
-                                    {getFieldError('interface_type')}
-                                </span>
-                            </Col>
-                            <Col md={4} xs={6}>
-                                <Label>
-                                    接口状态：
+                        <Select disabled={btnFlag == 2}
+                            {
+                            ...getFieldProps('interface_type', {
+                                initialValue: typeof interface_type === 'undefined' ? "" : interface_type,
+                                rules: [{
+                                    required: true, message: '请选择接口类型',
+                                }],
+                            }
+                            )}>
+                            <Option value="">请选择</Option>
+                            <Option value={"1"}>内部</Option>
+                            <Option value={"2"}>客商</Option>
+                            <Option value={"3"}>银行</Option>
+                        </Select>
+                        <span className='error'>
+                            {getFieldError('interface_type')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            接口状态：
                                 </Label>
+                        {
+                            (btnFlag < 2) ?
+                                (<Radio.RadioGroup
+                                    disabled={true}
+                                    selectedValue={interface_status || ''}
                                     {
-                                        (btnFlag < 2) ?
-                                            (<Radio.RadioGroup
-                                                disabled={true}
-                                                selectedValue={interface_status||''}
-                                                {
-                                                ...getFieldProps('interface_status', {
-                                                    initialValue: interface_status||'',
-                                                    validateTrigger: 'onBlur',
-                                                    rules: [{
-                                                        required: true, message: '请选择接口状态',
-                                                    }],
-                                                    onChange(value) {
-                                                        let tempRow = Object.assign({},rowData,{ interface_status: value });
-                                                        self.setState({
-                                                            rowData:tempRow
-                                                        })
-                                                    },
-                                                }
-                                                )}
-                                            >
-                                                <Radio value={1}>可用</Radio>
-                                                <Radio value={2}>不可用</Radio>
-                                            </Radio.RadioGroup>) : (
-                                                <FormControl disabled={btnFlag == 2} value={interface_status === 1?"可用":"不可用"} />
-                                            )
+                                    ...getFieldProps('interface_status', {
+                                        initialValue: interface_status || '',
+                                        validateTrigger: 'onBlur',
+                                        rules: [{
+                                            required: true, message: '请选择接口状态',
+                                        }],
+                                        onChange(value) {
+                                            let tempRow = Object.assign({}, rowData, { interface_status: value });
+                                            self.setState({
+                                                rowData: tempRow
+                                            })
+                                        },
                                     }
-
-
-                                <span className='error'>
-                                    {getFieldError('interface_status')}
-                                </span>
-                            </Col>
+                                    )}
+                                >
+                                    <Radio value={1}>可用</Radio>
+                                    <Radio value={2}>不可用</Radio>
+                                </Radio.RadioGroup>) : (
+                                    <FormControl disabled={btnFlag == 2} value={interface_status === 1 ? "可用" : "不可用"} />
+                                )
+                        }
+                        <span className='error'>
+                            {getFieldError('interface_status')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            计费方式：
+                                </Label>
+                        <FormControl disabled={btnFlag == 2 || false}
+                            {
+                            ...getFieldProps('charge_type', {
+                                validateTrigger: 'onBlur',
+                                initialValue: charge_type || '',
+                                rules: [{
+                                    type: 'string', required: true, pattern: /\S+/ig, message: '请输入计费方式',
+                                }],
+                            }
+                            )}
+                        />
+                        <span className='error'>
+                            {getFieldError('charge_type')}
+                        </span>
+                    </Col>
+                    <Col md={4} xs={6}>
+                        <Label>
+                            计费方式描述：
+                                </Label>
+                        <FormControl disabled={btnFlag == 2 || false}
+                            {
+                            ...getFieldProps('charge_type_desc', {
+                                validateTrigger: 'onBlur',
+                                initialValue: charge_type_desc || '',
+                                rules: [{
+                                    type: 'string', required: true, pattern: /\S+/ig, message: '请输入计费方式描述',
+                                }],
+                            }
+                            )}
+                        />
+                        <span className='error'>
+                            {getFieldError('charge_type_desc')}
+                        </span>
+                    </Col>
                 </Row>
-
-
             </div>
         )
     }

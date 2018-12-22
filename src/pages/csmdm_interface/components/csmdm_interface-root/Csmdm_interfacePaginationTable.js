@@ -80,14 +80,14 @@ export default class Csmdm_interfacePaginationTable extends Component {
                 },
                 {
                     title: "分组编号",
-                    dataIndex: "分组编号",
-                    key: "分组编号",
+                    dataIndex: "group_num",
+                    key: "group_num",
                     width: 70,
                 },
                 {
                     title: "分组顺序",
-                    dataIndex: "group_num",
-                    key: "group_num",
+                    dataIndex: "group_order",
+                    key: "group_order",
                     width: 70,
                 },
                 {
@@ -119,10 +119,10 @@ export default class Csmdm_interfacePaginationTable extends Component {
             selectData: data
         })
     }
+    
     /**
      * 编辑,详情，增加
      */
-
     cellClick = async (record,btnFlag) => {
         await actions.csmdm_interface.updateState({
             rowData : record,
